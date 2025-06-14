@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.locators.RelativeLocator;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -172,6 +173,32 @@ public class Topic_02_Selenium_Locator {
         driver.findElement(By.xpath("//button"));
         driver.findElement(By.xpath("//a"));
         driver.findElement(By.xpath("//input"));
+    }
+
+    @Test
+    public void TC_09_Relative_Locator(){
+        driver.get("https://demo.nopcommerce.com/login");
+
+        // Element/ By A
+        By passwordTextboxBy = By.cssSelector("input#Password");
+        WebElement passwordTextbox = driver.findElement(By.cssSelector("input#Password"));
+
+        // Element/ By B
+        By rememberMeCheckboxBy = By.id("RememberMe");
+
+        // Element/ By C
+        By forgotPasswordLinkBy = By.cssSelector("span.forgot-password");
+
+        // Element/ By D
+        By loginButtonBy = By.cssSelector("button.login-button");
+
+        // Element/ By
+        WebElement rememberMeLabelText = driver.findElement(RelativeLocator.with(By.tagName("label"))
+                .above(loginButtonBy) // label đang nằm trên login button
+                .below(passwordTextbox) // label nằm dưới password textbox
+                .toRightOf(rememberMeCheckboxBy) // label nam ben phai so vs RememberMe checkbox
+                .toLeftOf(forgotPasswordLinkBy) // label nam ben trai so vs Forgot Password link
+        );
     }
 
     @AfterClass
