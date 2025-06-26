@@ -54,5 +54,61 @@ public class Topic_07_WebElement_Commands {
         // Áp dụng cho tất cả các loại
         // Kiểm tra 1 element có bị disable hay không (read only)
         element.isEnabled();
+
+        element.getCssValue("background-color");
+
+        // GUI: Font/ Size/ Color/ Position/ Location/...
+        element.getCssValue("font-size");
+
+        // Áp dụng cho element chứa text (Link/ Button/ Header/ Label/...)
+        element.getText();
+
+        element.getAttribute("placeholder");
+
+        // Chiều rộng/ cao của browser?
+        Dimension dimensionBrowser = driver.manage().window().getSize();
+
+        // Chiều rộng/ cao của element?
+        Dimension dimensionElement =  element.getSize();
+
+        Point pointBrowser = driver.manage().window().getPosition();
+
+        // Vị trí của element so với viewport
+        Point pointElement = element.getLocation();
+
+        Rectangle rectangle = element.getRect();
+
+        // Size
+        rectangle.getWidth();
+        rectangle.getHeight();
+        rectangle.getDimension();
+
+        // Location
+        rectangle.getX();
+        rectangle.getY();
+        rectangle.getPoint();
+
+        // Lấy ra cái thẻ html của element đó
+        // Element A
+        String tagname = driver.findElement(By.cssSelector("#Firstname")).getTagName();
+
+        // Element B
+        driver.findElement(By.xpath("//" + tagname + "[@id='LastName']"));
+
+        element.getAccessibleName();
+
+        element.getAriaRole();
+
+        element.getDomAttribute("data-val-required");
+
+        element.getDomProperty("formAction");
+
+        // Popup
+        element.getShadowRoot();
+
+        // Framework: HTML report
+        element.getScreenshotAs(OutputType.FILE);
+        element.getScreenshotAs(OutputType.BYTES);
+        element.getScreenshotAs(OutputType.BASE64);
     }
 }
