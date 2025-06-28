@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -24,7 +25,7 @@ public class Topic_02_Selenium_Locator {
     public void initialBrowser(){
         // Mở browser lên
         // Khởi tạo biên driver lên
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
 
         // Mở app lên đến màn hình login
         driver.get("https://demo.nopcommerce.com/register");
