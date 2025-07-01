@@ -9,7 +9,7 @@ public class Topic_05_Random {
     // Global
     String prefixEmail = "joebiden";
 
-    String postfixEmail = "@gmail.com"; // Web Mail Serve
+    String postfixEmail = "@gmail.com"; // Web Mail Serve 
 
     String fullEmail = prefixEmail + postfixEmail;
 
