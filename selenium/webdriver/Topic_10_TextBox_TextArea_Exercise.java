@@ -15,14 +15,14 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Random;
 
-
 public class Topic_10_TextBox_TextArea_Exercise {
 
     WebDriver driver;
 
     Random rand;
 
-    String firstName, lastName, emailAddress, password, fullName;
+    String firstName, lastName, emailAddress, password, fullName,
+            userNameLogIn, passwordLogIn, employeeId, firstNameEmployee, lastNameEmployee, passwordEmployee;
 
     @BeforeClass
     public void initialBrowser(){
@@ -35,6 +35,11 @@ public class Topic_10_TextBox_TextArea_Exercise {
         fullName = firstName + " " + lastName;
         emailAddress = "joebiden" + rand.nextInt(99999) + "@gmail.com";
         password = "123456789";
+        userNameLogIn = "Admin";
+        passwordLogIn = "admin123";
+        firstNameEmployee = "Automation";
+        lastNameEmployee = "FC";
+        passwordEmployee = "12345678aa";
 
         ChromeOptions options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
@@ -114,6 +119,68 @@ public class Topic_10_TextBox_TextArea_Exercise {
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://live.techpanda.org/index.php/");
     }
+
+    @Test
+    public void TC_02_OrangeHrm(){
+
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
+        driver.findElement(By.xpath("//input[@name='username']")).sendKeys(userNameLogIn);
+
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(passwordLogIn);
+
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        driver.findElement(By.xpath("//span[text()='PIM']")).click();
+
+        driver.findElement(By.xpath("//a[text()='Add Employee']")).click();
+
+        driver.findElement(By.xpath("//input[@name='firstName']")).sendKeys(firstNameEmployee);
+
+        driver.findElement(By.xpath("//input[@name='lastName']")).sendKeys(lastNameEmployee);
+
+        // Lấy giá trị từ textbox Employee Id
+        employeeId = driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input"))
+                .getAttribute("value");
+
+        driver.findElement(By.xpath("//p[text()='Create Login Details']/following-sibling::div")).click();
+
+        driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys("afc" + employeeId);
+
+        driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div/input")).sendKeys(passwordEmployee);
+
+        driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div/input")).sendKeys(passwordEmployee);
+
+        driver.findElement(By.xpath("//button[text()=' Save ']")).click();
+
+        String actualFirstName = driver.findElement(By.xpath("//input[@name='firstName']")).getAttribute("value");
+        String actualLastName = driver.findElement(By.xpath("//input[@name='lastName']")).getAttribute("value");
+        String actualEmployeeId = driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div//input"))
+                .getAttribute("value");
+
+        Assert.assertEquals(actualFirstName, firstNameEmployee);
+        Assert.assertEquals(actualLastName, lastNameEmployee);
+        Assert.assertEquals(actualEmployeeId, employeeId);
+
+        driver.findElement(By.xpath("//a[text()='Immigration']")).click();
+
+        driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/following-sibling::button")).click();
+
+        driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys("40517-402-96-7202");
+
+        driver.findElement(By.xpath("//textarea[@placeholder='Type Comments here']")).sendKeys("This is generated data \n" +
+                "of real people");
+
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+
+
+
+
+
+    }
+
+
 
     @AfterClass
     public void cleanBrowser(){
