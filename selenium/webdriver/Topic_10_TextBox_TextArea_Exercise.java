@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -22,12 +23,13 @@ public class Topic_10_TextBox_TextArea_Exercise {
     Random rand;
 
     String firstName, lastName, emailAddress, password, fullName,
-            userNameLogIn, passwordLogIn, employeeId, firstNameEmployee, lastNameEmployee, passwordEmployee;
+            userNameLogIn, passwordLogIn, employeeId, firstNameEmployee, lastNameEmployee, passwordEmployee,
+            number, comment;
 
     @BeforeClass
     public void initialBrowser(){
 
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         rand = new Random();
 
         firstName = "Joe";
@@ -40,6 +42,9 @@ public class Topic_10_TextBox_TextArea_Exercise {
         firstNameEmployee = "Automation";
         lastNameEmployee = "FC";
         passwordEmployee = "12345678aa";
+        number = "40517-402-96-7202";
+        comment = "This is generated data \n" +
+                "of real people";
 
         ChromeOptions options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
@@ -55,13 +60,13 @@ public class Topic_10_TextBox_TextArea_Exercise {
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 
-       driver.findElement(By.cssSelector("input#firstname")).sendKeys(firstName);
-       driver.findElement(By.cssSelector("input#lastname")).sendKeys(lastName);
-       driver.findElement(By.cssSelector("input#email_address")).sendKeys(emailAddress);
-       driver.findElement(By.cssSelector("input#password")).sendKeys(password);
-       driver.findElement(By.cssSelector("input#confirmation")).sendKeys(password);
+        driver.findElement(By.cssSelector("input#firstname")).sendKeys(firstName);
+        driver.findElement(By.cssSelector("input#lastname")).sendKeys(lastName);
+        driver.findElement(By.cssSelector("input#email_address")).sendKeys(emailAddress);
+        driver.findElement(By.cssSelector("input#password")).sendKeys(password);
+        driver.findElement(By.cssSelector("input#confirmation")).sendKeys(password);
 
-       driver.findElement(By.xpath("//button[@title='Register']")).click();
+        driver.findElement(By.xpath("//button[@title='Register']")).click();
 
         Thread.sleep(30000);
 
@@ -121,7 +126,7 @@ public class Topic_10_TextBox_TextArea_Exercise {
     }
 
     @Test
-    public void TC_02_OrangeHrm(){
+    public void TC_02_OrangeHrm() throws InterruptedException {
 
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
@@ -145,7 +150,8 @@ public class Topic_10_TextBox_TextArea_Exercise {
 
         driver.findElement(By.xpath("//p[text()='Create Login Details']/following-sibling::div")).click();
 
-        driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys("afc" + employeeId);
+        String userNameEmployee = "afc" + employeeId;
+        driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys(userNameEmployee);
 
         driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div/input")).sendKeys(passwordEmployee);
 
@@ -162,25 +168,51 @@ public class Topic_10_TextBox_TextArea_Exercise {
         Assert.assertEquals(actualLastName, lastNameEmployee);
         Assert.assertEquals(actualEmployeeId, employeeId);
 
+        Thread.sleep(5000);
         driver.findElement(By.xpath("//a[text()='Immigration']")).click();
 
         driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/following-sibling::button")).click();
 
-        driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys("40517-402-96-7202");
+        driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys(number);
 
-        driver.findElement(By.xpath("//textarea[@placeholder='Type Comments here']")).sendKeys("This is generated data \n" +
-                "of real people");
+        driver.findElement(By.xpath("//textarea[@placeholder='Type Comments here']")).sendKeys(comment);
+
+        driver.findElement(By.xpath("//button[@type='submi1t']")).click();
+
+        driver.findElement(By.cssSelector(".bi-pencil-fill")).click();
+
+        Thread.sleep(3000);
+        String actualNumber = driver.findElement(By.xpath("//label[contains(text(),'Number')]/parent::div/following-sibling::div/input")).getAttribute("value");
+
+        String actualComment = driver.findElement(By.xpath("//textarea[@placeholder='Type Comments here']")).getAttribute("value");
+
+        Assert.assertEquals(actualNumber, number);
+        Assert.assertEquals(actualComment, comment);
+
+        driver.findElement(By.cssSelector(".oxd-userdropdown-name")).click();
+
+        driver.findElement(By.xpath("//a[text()='Logout']")).click();
+
+        driver.findElement(By.xpath("//input[@name='username']")).sendKeys(userNameEmployee);
+
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(passwordEmployee);
 
         driver.findElement(By.xpath("//button[@type='submit']")).click();
 
+        driver.findElement(By.xpath("//span[text()='My Info']")).click();
 
+        Assert.assertEquals(actualFirstName, firstNameEmployee);
+        Assert.assertEquals(actualLastName, lastNameEmployee);
+        Assert.assertEquals(actualEmployeeId, employeeId);
 
+        driver.findElement(By.xpath("//a[text()='Immigration']")).click();
 
+        driver.findElement(By.cssSelector(".bi-pencil-fill")).click();
 
-
+        Thread.sleep(3000);
+        Assert.assertEquals(actualNumber, number);
+        Assert.assertEquals(actualComment, comment);
     }
-
-
 
     @AfterClass
     public void cleanBrowser(){
