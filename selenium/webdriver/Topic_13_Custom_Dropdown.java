@@ -12,7 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.lang.model.element.Element;
 import java.time.Duration;
 import java.util.List;
 
@@ -74,12 +73,23 @@ public class Topic_13_Custom_Dropdown {
         Assert.assertEquals(driver.findElement(By.cssSelector("li.dropdown-toggle")).getText(), "First Option");
     }
 
+    @Test
+    public void TC_04_Editable() throws InterruptedException {
+        driver.get("https://react.semantic-ui.com/maximize/dropdown-example-search-selection/");
+
+        enterItemInCustomDropdown("input.search", "div.item>span", "Albania");
+        Assert.assertEquals(driver.findElement(By.cssSelector("div.divider.text")).getText(), "Albania");
+
+        enterItemInCustomDropdown("input.search", "div.item>span", "Argentina");
+        Assert.assertEquals(driver.findElement(By.cssSelector("div.divider.text")).getText(), "Argentina");
+    }
+
     private void selectItemInCustomDropdown(String parentCss, String childCss, String textItem) throws InterruptedException {
         // Hành vi (behavior) để thao tác lên Dropdown
         // 1 - Chờ cho dropdown có thể thao tác lên được (clickable)
         // 2 - Click element nào để nó xổ ra cái dropdown ra
         explicitWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(parentCss))).click();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
 
         // 3 - Chờ cho tất cả các items được load ra (presence)
         // 4 - Tìm cho items nào đúng với mong đợi
@@ -89,6 +99,28 @@ public class Topic_13_Custom_Dropdown {
         for(WebElement item: allItems){
             if(item.getText().equals(textItem)){
                 // 5-  Click lên item đó
+                item.click();
+                break;
+            }
+        }
+    }
+
+    private void enterItemInCustomDropdown(String parentCss, String childCss, String textItem) throws InterruptedException {
+        // Hành vi để thao tác lên dropdown
+        // 1 - Chờ cho dropdown có thể nhâp được (visibale)
+        // 2 - Sendkey vào drop-down
+        WebElement dropdownTextbox = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(parentCss)));
+        dropdownTextbox.clear();
+        dropdownTextbox.sendKeys(textItem);
+        Thread.sleep(2000);
+
+        // 3 -  Chờ cho tất cả các item được load ra) presence
+        // 4 - Tìm cho item nào dúng với mong đợi
+        List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childCss)));
+
+        for (WebElement item: allItems){
+            if (item.getText().equals(textItem)){
+                // 5 - Click lên item đó
                 item.click();
                 break;
             }
