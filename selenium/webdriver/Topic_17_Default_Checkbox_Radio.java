@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
-public class Topic_16_Default_Checkbox_Radio {
+public class Topic_17_Default_Checkbox_Radio {
 
     WebDriver driver;
 
@@ -150,7 +150,6 @@ public class Topic_16_Default_Checkbox_Radio {
             }
         }
         Assert.assertTrue(driver.findElement(By.cssSelector("input[value='Emphysema")).isSelected());
-
     }
 
     @AfterClass
