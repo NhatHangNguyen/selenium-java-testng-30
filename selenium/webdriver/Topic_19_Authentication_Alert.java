@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Topic_019_Authentication_Alert {
+public class Topic_19_Authentication_Alert {
 
     WebDriver driver;
     String username = "admin";
