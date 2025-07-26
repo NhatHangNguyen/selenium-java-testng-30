@@ -83,6 +83,36 @@ public class Topic_23_Frame_iFame {
     }
 
     @Test
+    public void TC_11_1_iFrame_jQueryUi() throws InterruptedException {
+        driver.get("https://jqueryui.com/dialog/");
+
+        driver.switchTo().frame(driver.findElement(By.cssSelector("div#content-wrapper iframe")));
+        Thread.sleep(3000);
+
+        driver.findElement(By.cssSelector("span.ui-icon-closethick")).click();
+        Thread.sleep(3000);
+
+        Assert.assertFalse(driver.findElement(By.cssSelector("div#dialog")).isDisplayed());
+    }
+
+    @Test
+    public void TC_11_2_iFrame_reCaptCha() throws InterruptedException {
+        driver.get("https://www.google.com/recaptcha/api2/demo");
+
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='reCAPTCHA']")));
+
+        driver.findElement(By.cssSelector("div.recaptcha-checkbox-border")).click();
+        Thread.sleep(3000);
+    }
+
+    @Test
+    public void TC_11_3_iFrame_embedGoogleMap() throws InterruptedException {
+        driver.get("https://www.embedgooglemap.net/");
+
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe#gmap_canvas")));
+    }
+
+    @Test
     public void TC_12_Frame() throws InterruptedException {
         driver.get("https://netbanking.hdfcbank.com/netbanking/");
 
