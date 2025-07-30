@@ -79,7 +79,6 @@ public class Topic_25_Fixed_Popup_Not_In_Dom {
         // Click on "Create New Account" button
         By createNewAccountButton = By.cssSelector("a[data-testid='open-registration-form-button']");
         driver.findElement(createNewAccountButton).click();
-        Thread.sleep(2000);
 
         // Verify Register popup displayed
         By createNewAccountPopup = By.xpath("//div[@id='content']/child::div/descendant::div/child::div[@id='reg_box']");
@@ -87,8 +86,9 @@ public class Topic_25_Fixed_Popup_Not_In_Dom {
 
         // Click X to close popup
         driver.navigate().back();
+        Thread.sleep(2000);
 
-        // Verify Register popup disappear
+        // Verify Register popup display
         Assert.assertEquals(driver.findElements(createNewAccountPopup).size(),0);
     }
 
