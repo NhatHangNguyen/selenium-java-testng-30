@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.util.Set;
 
 
-public class Topic_27_Windows_Tab {
+public class Topic_27_Windows_Tab_Part_I {
 
     WebDriver driver;
 
