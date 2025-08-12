@@ -55,14 +55,6 @@ public class Topic_29_JavaExecutor {
         List<WebElement> emailTypeTextBox = (List<WebElement>) jsExecutor.executeScript("return document.querySelectorAll(\"input[type='email']\");");
 
         // Scroll tới 1 element nào đó thì s
-
-
-
-    }
-
-    @Test
-    public void TC_02_Login(){
-
     }
 
     @AfterClass
