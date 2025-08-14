@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
-public class Topic_29_JavaExecutor {
+public class Topic_29_JavaExecutor_Part_I {
 
     WebDriver driver;
     JavascriptExecutor jsExecutor;
