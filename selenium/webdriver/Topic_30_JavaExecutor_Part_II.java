@@ -75,7 +75,7 @@ public class Topic_30_JavaExecutor_Part_II {
     }
 
     @Test
-    public void TC_02_TechPanda() throws InterruptedException {
+    public void TC_01_1_TechPanda() throws InterruptedException {
         navigateToUrlByJS("https://live.techpanda.org/");
 
         Assert.assertEquals(getDomain(),"live.techpanda.org");
@@ -99,6 +99,121 @@ public class Topic_30_JavaExecutor_Part_II {
         Assert.assertTrue(getInnerText().contains("Thank you for your subscription."));
 
         navigateToUrlByJS("https://www.facebook.com/");
+    }
+
+    @Test
+    public void TC_02_Github() throws InterruptedException {
+        driver.get("https://automationfc.github.io/html5/index.html");
+
+        WebElement submitButton = driver.findElement(By.cssSelector("input[type='submit']"));
+
+        // Name field - Empty: Click Submit and verify msg display at Name textbox
+        submitButton.click();
+        Assert.assertEquals(getElementValidationMessage("//input[@id='fname']"), "Please fill out this field.");
+        Thread.sleep(3000);
+
+        // Input data into Name and click Submit - verify message display field Password textbox
+        String nameFieldData = "Nhat Hang";
+        driver.findElement(By.cssSelector("input#fname")).sendKeys(nameFieldData);
+        submitButton.click();
+        String emptyPasswordMessage = getElementValidationMessage("//input[@id='pass']");
+        Assert.assertEquals(emptyPasswordMessage,"Please fill out this field.");
+        Thread.sleep(3000);
+
+        // Input data into Password and click Submit - verify message display field Email textbox
+        String passwordFieldData = "NhatHang";
+        driver.findElement(By.cssSelector("input#pass")).sendKeys(passwordFieldData);
+        submitButton.click();
+        String emptyEmailMessage = getElementValidationMessage("//input[@id='em']");
+        Assert.assertEquals(emptyEmailMessage,"Please fill out this field.");
+        Thread.sleep(3000);
+
+        // Email fields
+        // Case 1: Invalid "aaa"
+        String invalidEmailData = "aaa";
+        driver.findElement(By.xpath("//input[@id='em']")).sendKeys(invalidEmailData);
+        submitButton.click();
+
+        String invalidEmailMessage = getElementValidationMessage("//input[@id='em']");
+
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "Please include an '@' in the email address. '" + invalidEmailData + "' is missing an '@'.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+        
+        // Case 2: Only "aaa@";
+        // Case 3: aaa@aaa.
+    }
+
+    @Test
+    public void TC_03_Role() {
+        driver.get("https://account.rode.com/login");
+
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
+
+        // Case 1: Email - Empty
+        loginButton.click();
+        String emptyEmailMessage = getElementValidationMessage("//input[@id='email']");
+        Assert.assertEquals(emptyEmailMessage, "Please fill out this field.");
+
+        // Case 2: Email - Invalid
+        String invalidEmailData = "aaa";
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys(invalidEmailData);
+        loginButton.click();
+
+        String invalidEmailMessage = getElementValidationMessage("//input[@id='email']");
+
+        // Chrome: "Please include an '@' in the email address. 'aaa' is missing an '@'."
+        // Firefox: Please enter an email address.
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "Please include an '@' in the email address. '" + invalidEmailData + "' is missing an '@'.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+
+        // Case 3: Email - Only @
+        invalidEmailData = "aaa@";
+        driver.findElement(By.xpath("//input[@id='email']")).clear();
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys(invalidEmailData);
+        loginButton.click();
+
+        invalidEmailMessage = getElementValidationMessage("//input[@id='email']");
+
+        // Chrome: "Please enter a part following '@'. 'aaa@' is incomplete."
+        // Firefox: Please enter an email address.
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "Please enter a part following '@'. '" + invalidEmailData + "' is incomplete.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+
+        // Case 4: Email - aaa@aaa.
+        invalidEmailData = "aaa@aaa.";
+        driver.findElement(By.xpath("//input[@id='email']")).clear();
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys(invalidEmailData);
+        loginButton.click();
+
+        invalidEmailMessage = getElementValidationMessage("//input[@id='email']");
+
+        // Chrome: "'.' is used at a wrong position in 'aaa.'."
+        // Firefox: Please enter an email address.
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "'.' is used at a wrong position in '" + invalidEmailData.split("@")[1] + "'.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+
+        // Case 5: Email - valid
+        driver.findElement(By.xpath("//input[@id='email']")).clear();
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys(email);
+        loginButton.click();
+
+        Assert.assertEquals(getElementValidationMessage("//input[@id='password']"), "Please fill out this field.");
     }
 
     @AfterClass
