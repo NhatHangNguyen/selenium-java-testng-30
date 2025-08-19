@@ -133,6 +133,7 @@ public class Topic_30_JavaExecutor_Part_II {
         String invalidEmailData = "aaa";
         driver.findElement(By.xpath("//input[@id='em']")).sendKeys(invalidEmailData);
         submitButton.click();
+        Thread.sleep(3000);
 
         String invalidEmailMessage = getElementValidationMessage("//input[@id='em']");
 
@@ -144,7 +145,44 @@ public class Topic_30_JavaExecutor_Part_II {
         }
         
         // Case 2: Only "aaa@";
+        invalidEmailData = "aaa@";
+        driver.findElement(By.xpath("//input[@id='em']")).clear();
+        driver.findElement(By.xpath("//input[@id='em']")).sendKeys(invalidEmailData);
+        submitButton.click();
+        Thread.sleep(3000);
+
+        invalidEmailMessage = getElementValidationMessage("//input[@id='em']");
+
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "Please enter a part following '@'. '" + invalidEmailData + "' is incomplete.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+
         // Case 3: aaa@aaa.
+        invalidEmailData = "aaa@aaa.";
+        driver.findElement(By.xpath("//input[@id='em']")).clear();
+        driver.findElement(By.xpath("//input[@id='em']")).sendKeys(invalidEmailData);
+        submitButton.click();
+        Thread.sleep(3000);
+
+        invalidEmailMessage = getElementValidationMessage("//input[@id='em']");
+
+        if (driver.toString().contains("Chrome")) {
+            Assert.assertEquals(invalidEmailMessage, "'.' is used at a wrong position in '" + invalidEmailData.split("@")[1] + "'.");
+        }
+        else{
+            Assert.assertEquals(invalidEmailMessage, "Please enter an email address.");
+        }
+
+        // Case 4: Email - valid
+        driver.findElement(By.xpath("//input[@id='em']")).clear();
+        driver.findElement(By.xpath("//input[@id='em']")).sendKeys(email);
+        submitButton.click();
+        Thread.sleep(3000);
+
+        Assert.assertEquals(getElementValidationMessage("//select[@required]"), "Please select an item in the list.");
     }
 
     @Test
