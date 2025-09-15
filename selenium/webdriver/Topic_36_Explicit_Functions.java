@@ -15,7 +15,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Topic_36_Explicit {
+public class Topic_36_Explicit_Functions {
     WebDriver driver;
     WebDriverWait explicitWait;
 
