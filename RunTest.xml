@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="Live Guru" verbose="1" parallel="tests" thread-count="3">
+<suite name="Live Guru">
     <parameter name="server" value="Production"/>
 
-    <test name="Run on Chrome">
+    <test name="Run on Chrome" preserve-order="false">
         <parameter name="browser" value="Chrome"/>
+
+        <packages>
+            <package name="tesNG"/>
+            <package name="payment"/>
+            <package name="product"/>
+        </packages>
+
         <classes>
             <class name="testNG.Topic_09_Multiple_Browser"/>
             <class name="testNG.Topic_01_Annotation"/>
             <class name="testNG.Topic_02_Assert"/>
             <class name="testNG.Topic_04_Alway_Run"/>
+            <class name="testNG.Topic_03_Group"/>
+            <class name="testNG.Topic_05_Priority"/>
+            <class name="testNG.Topic_10_Loop"/>
+            <class name="testNG.Topic_07_Description"/>
+            <class name="testNG.Topic_11_Timeout"/>
+            <class name="testNG.Topic_06_Skip"/>
+            <class name="testNG.Topic_08_Data_Provider"/>
+            <class name="product.Product_01_CRUD"/>
+            <class name="payment.Payment_01_CRUD"/>
         </classes>
     </test>
 
-    <test name="Run on Edge">
-        <parameter name="browser" value="Edge"/>
-        <classes>
-            <class name="testNG.Topic_09_Multiple_Browser"/>
-        </classes>
-    </test>
-
-    <test name="Run on Firefox">
-        <parameter name="browser" value="Firefox"/>
-        <classes>
-            <class name="testNG.Topic_09_Multiple_Browser"/>
-        </classes>
-    </test>
 </suite>

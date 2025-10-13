@@ -8,5 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="selenium-testng" level="project" />
+    <orderEntry type="library" name="commons-is-2.20.0" level="project" />
+    <orderEntry type="library" name="commons-io-2.20.0" level="project" />
   </component>
 </module>
